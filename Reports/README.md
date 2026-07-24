@@ -10,6 +10,7 @@ Each award has its own dedicated folder. \
 Each folder contains:
 
 * A reusable **report-template.md**
+* A **project.toml** with the project's display title, a link to the proposal issue, and its status (`Accepted`, `In Progress`, or `Done`), used by the [rendered report site](https://jupyter-governance.github.io/funding-proposals)
 * A series of bi-monthly reports submitted via PRs
 
 ## Reporting Schedule

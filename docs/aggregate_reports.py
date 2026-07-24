@@ -1,0 +1,92 @@
+"""Generate one MyST page per funded project by concatenating its reports in date order.
+
+Reads Reports/<cycle>/<project>/*.md and writes docs/projects/<cycle>/<project>.md.
+Run from anywhere: paths are resolved relative to this file.
+"""
+
+import re
+import shutil
+import tomllib
+from pathlib import Path
+
+DOCS = Path(__file__).resolve().parent
+REPORTS = DOCS.parent / "Reports"
+OUT = DOCS / "projects"
+
+MONTHS = ["January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"]
+
+
+def project_config(project):
+    """Read project.toml (title, proposal, status), falling back to the folder name."""
+    config = project / "project.toml"
+    info = tomllib.loads(config.read_text()) if config.is_file() else {}
+    if not info.get("title"):
+        print(f"!! no title in {config}; using folder name")
+        info["title"] = project.name.replace("_", " ").title()
+    return info
+
+
+def strip_frontmatter(text):
+    if text.startswith("---\n"):
+        end = text.find("\n---\n", 4)
+        if end != -1:
+            return text[end + 5:].lstrip("\n")
+    return text
+
+
+def demote_headings(text):
+    """Shift headings down one level so report sections sit under the month heading."""
+    return re.sub(r"^(#{1,5}) ", r"#\1 ", text, flags=re.MULTILINE)
+
+
+def main():
+    shutil.rmtree(OUT, ignore_errors=True)
+    for cycle in sorted(REPORTS.iterdir()):
+        if not cycle.is_dir():
+            continue
+        for project in sorted(cycle.iterdir()):
+            if not project.is_dir():
+                continue
+            info = project_config(project)
+            name = info["title"]
+            reports = []
+            for md in project.glob("*.md"):
+                m = re.match(r"(\d{4})-(\d{2})(?:-(\d{2}))?", md.name)
+                if not m:
+                    print(f"!! skipping unrecognized filename: {md}")
+                    continue
+                reports.append(((m.group(1), m.group(2), m.group(3)), md))
+            if not reports:
+                continue
+            reports.sort(key=lambda r: (r[0][0], r[0][1], r[0][2] or ""))
+            sections = []
+            for (year, month, _), md in reports:
+                body = demote_headings(strip_frontmatter(md.read_text()))
+                sections.append(f"## {MONTHS[int(month) - 1]} {year}\n\n{body.strip()}\n")
+            # Only claim the precision the filename gives: "2026-07-02" or "2026-06".
+            year, month, day = reports[-1][0]
+            date = f"{year}-{month}-{day}" if day else f"{year}-{month}"
+            month_name = MONTHS[int(month) - 1]
+            latest = f"{month_name} {int(day)}, {year}" if day else f"{month_name} {year}"
+            # sortdate is a custom key (not `date`) so the theme doesn't render
+            # a date under the page title; the index listing sorts by it. The
+            # "latest report" key doubles as the listing's column header.
+            frontmatter = [f'title: "{name}"', f'sortdate: "{date}"', f'latest report: "{latest}"']
+            intro = []
+            if info.get("status"):
+                frontmatter.append(f'status: "{info["status"]}"')
+                intro.append(f'**Status:** {info["status"]}')
+            if info.get("proposal"):
+                intro.append(f'[Proposal]({info["proposal"]})')
+            header = "---\n" + "\n".join(frontmatter) + "\n---\n\n"
+            if intro:
+                header += " · ".join(intro) + "\n\n"
+            page = OUT / cycle.name / f"{project.name}.md"
+            page.parent.mkdir(parents=True, exist_ok=True)
+            page.write_text(header + "\n".join(sections))
+            print(f"wrote {page.relative_to(DOCS)} ({len(reports)} reports)")
+
+
+if __name__ == "__main__":
+    main()

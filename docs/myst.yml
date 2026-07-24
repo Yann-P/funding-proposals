@@ -1,0 +1,27 @@
+version: 1
+project:
+  title: Jupyter Foundation Community Funding Reports
+  description: Progress reports for funded community proposals approved by the Jupyter Foundation Governing Board.
+  keywords:
+    - Jupyter
+    - Jupyter Foundation
+    - funding
+  github: https://github.com/jupyter-governance/funding-proposals
+  plugins:
+    # Listing directive, used to list the reports in this repository
+    - https://github.com/myst-contrib/myst-listing/releases/latest/download/plugin.mjs
+  toc:
+    - file: index.md
+    - title: 2026 Projects
+      children:
+        - pattern: projects/2026/*.md
+    - title: 2025 Cycle 1 Projects
+      children:
+        - pattern: projects/2025_cycle_1/*.md
+site:
+  template: book-theme
+  options:
+    logo_text: Funding Reports
+    logo: images/logo.svg
+    logo_dark: images/logo-dark.svg
+    favicon: images/favicon.ico

@@ -18,3 +18,18 @@ We use [this proposal tracking board](https://github.com/orgs/jupyter-governance
 ## Where is this process defined?
 
 The [funding process page](https://compass.jupyterfoundation.org/funding/process/) on the Foundation team compass is the source of truth for this process.
+
+## Progress reports
+
+Progress reports for funded proposals live in the [`Reports/`](Reports/) folder and are rendered at [jupyter-governance.github.io/funding-proposals](https://jupyter-governance.github.io/funding-proposals).
+See the [Reports README](Reports/README.md) for how to submit a report.
+
+## Build the report site
+
+The site in `docs/` is built with [MyST](https://mystmd.org) and deployed to GitHub Pages automatically on merge to `main`.
+To build it locally, install [nox](https://nox.thea.codes) and run:
+
+```bash
+nox -s docs       # build static HTML in docs/_build/html
+nox -s docs-live  # start a live-reloading dev server
+```
