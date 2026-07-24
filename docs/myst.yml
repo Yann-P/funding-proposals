@@ -10,17 +10,22 @@ project:
   plugins:
     # Listing directive, used to list the reports in this repository
     - https://github.com/myst-contrib/myst-listing/releases/latest/download/plugin.mjs
+    # Click-to-sort table headers (local plugin; progressive enhancement)
+    - plugins/sortable.mjs
   toc:
     - file: index.md
     - title: 2026 Projects
       children:
         - pattern: projects/2026/*.md
-    - title: 2025 Cycle 1 Projects
+    - title: 2025 Projects
       children:
-        - pattern: projects/2025_cycle_1/*.md
+        - pattern: projects/2025/*.md
 site:
   template: book-theme
   options:
+    # URLs mirror the folder structure (/projects/<round>/<project>/) so
+    # page URLs are permanent by construction.
+    folders: true
     analytics_plausible: jupyter.org
     logo_text: Funding Reports
     logo: images/logo.svg
