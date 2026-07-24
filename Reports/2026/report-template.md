@@ -1,5 +1,3 @@
-# Report Template
----
 ## Summary of Work Completed
 
 ## Deliverables/Milestones
