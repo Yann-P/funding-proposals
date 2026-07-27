@@ -1,4 +1,4 @@
-"""Nox sessions for the Jupyter Foundation funding reports documentation."""
+"""Nox sessions for the Jupyter Foundation community funding reports documentation."""
 
 import nox
 

@@ -1,6 +1,6 @@
-# Jupyter Foundation Funding Proposals
+# Jupyter Foundation Community Funding Proposals
 
-This repository is a home for issues for coordinating writing around Jupyter Foundation funding proposals. See https://compass.jupyterfoundation.org/funding/process/ for more information.
+This repository is a home for issues for coordinating writing around Jupyter Foundation community funding proposals. See https://compass.jupyterfoundation.org/funding/process/ for more information.
 
 ## How to submit a proposal
 

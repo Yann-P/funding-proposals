@@ -14,12 +14,12 @@ project:
     - plugins/sortable.mjs
   toc:
     - file: index.md
-    - title: 2026 Projects
-      children:
-        - pattern: projects/2026/*.md
-    - title: 2025 Projects
+    - title: 2025 Round
       children:
         - pattern: projects/2025/*.md
+    - title: 2026 Round
+      children:
+        - pattern: projects/2026/*.md
 site:
   template: book-theme
   options:
