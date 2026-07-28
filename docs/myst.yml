@@ -10,8 +10,8 @@ project:
   plugins:
     # Listing directive, used to list the reports in this repository
     - https://github.com/myst-contrib/myst-listing/releases/latest/download/plugin.mjs
-    # Click-to-sort table headers (local plugin; progressive enhancement)
-    - plugins/sortable.mjs
+    # Tabulator directive, adding sorting and other interactivity to tables
+    - https://raw.githubusercontent.com/myst-contrib/myst-tabulator/main/src/tabulator.mjs
   toc:
     - file: index.md
     - title: 2025 Round

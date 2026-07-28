@@ -16,9 +16,6 @@ OUT = DOCS / "projects"
 MONTHS = ["January", "February", "March", "April", "May", "June",
           "July", "August", "September", "October", "November", "December"]
 
-# Lifecycle order for the index tables; unknown statuses sort last.
-STATUS_ORDER = {"Accepted": "0", "In Progress": "1", "Done": "2"}
-
 
 def project_config(project):
     """Read project.toml (title, proposal, status), falling back to the folder name."""
@@ -67,16 +64,14 @@ def main():
             for (year, month, _), md in reports:
                 body = demote_headings(strip_frontmatter(md.read_text()))
                 sections.append(f"## {MONTHS[int(month) - 1]} {year}\n\n{body.strip()}\n")
-            # Only claim the precision the filename gives: "July 2, 2026" or "June 2026".
-            year, month, day = reports[-1][0]
-            month_name = MONTHS[int(month) - 1]
-            latest = f"{month_name} {int(day)}, {year}" if day else f"{month_name} {year}"
-            latest_key = f"{year}-{month}-{day}" if day else f"{year}-{month}"
+            # Month-precision ISO ("2026-07") so both the listing's build-time
+            # sort and the index table's click-to-sort (lexicographic on cell
+            # text) are chronological. Full YYYY-MM-DD would be rewritten to
+            # "July 2, 2026" by myst-listing's cell formatter, breaking both.
+            year, month, _ = reports[-1][0]
+            latest = f"{year}-{month}"
             # Frontmatter field names double as the index listing's column
-            # headers. A "<column> sortkey" field is the sort key for that
-            # column (see plugins/sortable.mjs); keys must be space-free, as
-            # they travel as CSS class tokens.
-            status_rank = STATUS_ORDER.get(info.get("status", ""), "9")
+            # headers.
             round_ = info.get("funding_round", "")
             if not round_:
                 print(f"!! no funding_round in {project / 'project.toml'}")
@@ -84,12 +79,10 @@ def main():
                 f'title: "{name}"',
                 f'funding round: "{round_}"',
                 f'latest report: "{latest}"',
-                f'latest report sortkey: "{latest_key}"',
             ]
             intro = []
             if info.get("status"):
                 frontmatter.append(f'status: "{info["status"]}"')
-                frontmatter.append(f'status sortkey: "{status_rank}"')
                 intro.append(f'**Status:** {info["status"]}')
             if info.get("proposal"):
                 intro.append(f'[Proposal]({info["proposal"]})')
