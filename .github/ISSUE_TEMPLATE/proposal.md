@@ -2,7 +2,7 @@
 name: Proposal
 about: Submit a funding proposal to the Jupyter Foundation
 labels: ['proposal']
-assignees: ''
+assignees: 'slandath'
 ---
 _This is a discussion and tracking issue for a Jupyter Foundation proposal, use it for conversation. Use [this project board](https://github.com/orgs/jupyter-governance/projects/13) to track progress. See [the process docs](https://compass.jupyterfoundation.org/funding/process/) for more information._
 
