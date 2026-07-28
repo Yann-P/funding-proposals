@@ -64,12 +64,13 @@ def main():
             for (year, month, _), md in reports:
                 body = demote_headings(strip_frontmatter(md.read_text()))
                 sections.append(f"## {MONTHS[int(month) - 1]} {year}\n\n{body.strip()}\n")
-            # Month-precision ISO ("2026-07") so both the listing's build-time
-            # sort and the index table's click-to-sort (lexicographic on cell
-            # text) are chronological. Full YYYY-MM-DD would be rewritten to
-            # "July 2, 2026" by myst-listing's cell formatter, breaking both.
-            year, month, _ = reports[-1][0]
-            latest = f"{year}-{month}"
+            # Only claim the precision the filename gives: "July 2, 2026" or
+            # "June 2026". The ISO "latest report date" field exists solely for
+            # the index listing's :sort:; it is never displayed.
+            year, month, day = reports[-1][0]
+            month_name = MONTHS[int(month) - 1]
+            latest = f"{month_name} {int(day)}, {year}" if day else f"{month_name} {year}"
+            latest_iso = f"{year}-{month}-{day}" if day else f"{year}-{month}"
             # Frontmatter field names double as the index listing's column
             # headers.
             round_ = info.get("funding_round", "")
@@ -79,6 +80,7 @@ def main():
                 f'title: "{name}"',
                 f'funding round: "{round_}"',
                 f'latest report: "{latest}"',
+                f'latest report date: "{latest_iso}"',
             ]
             intro = []
             if info.get("status"):

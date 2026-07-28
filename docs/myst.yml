@@ -10,8 +10,6 @@ project:
   plugins:
     # Listing directive, used to list the reports in this repository
     - https://github.com/myst-contrib/myst-listing/releases/latest/download/plugin.mjs
-    # Tabulator directive, adding sorting and other interactivity to tables
-    - https://raw.githubusercontent.com/myst-contrib/myst-tabulator/main/src/tabulator.mjs
   toc:
     - file: index.md
     - title: 2025 Round
@@ -31,5 +29,3 @@ site:
     logo: images/logo.svg
     logo_dark: images/logo-dark.svg
     favicon: images/favicon.ico
-    # Dark-mode overrides for the tabulator plugin's light-only stylesheet
-    style: style.css
