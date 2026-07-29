@@ -1,6 +1,7 @@
 {
   "name": "funding-reports-site",
   "private": true,
+  "packageManager": "pnpm@11.17.0",
   "type": "module",
   "description": "Build tooling for the funding reports MyST site",
   "scripts": {
