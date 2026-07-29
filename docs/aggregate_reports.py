@@ -36,8 +36,22 @@ def strip_frontmatter(text):
 
 
 def demote_headings(text):
-    """Shift headings down one level so report sections sit under the month heading."""
-    return re.sub(r"^(#{1,5}) ", r"#\1 ", text, flags=re.MULTILINE)
+    """Shift headings down one level so report sections sit under the month heading.
+
+    Skips fenced code blocks so e.g. shell comments aren't rewritten.
+    """
+    lines = text.splitlines(keepends=True)
+    fence = None
+    for i, line in enumerate(lines):
+        stripped = line.lstrip()
+        if fence:
+            if stripped.startswith(fence):
+                fence = None
+        elif stripped.startswith(("```", "~~~")):
+            fence = stripped[:3]
+        else:
+            lines[i] = re.sub(r"^(#{1,5}) ", r"#\1 ", line)
+    return "".join(lines)
 
 
 def main():
