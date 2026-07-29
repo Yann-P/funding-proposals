@@ -17,15 +17,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
       - uses: actions/setup-node@v4
         with:
           node-version: 20.x
-      - name: Install MyST Markdown
-        run: npm install -g mystmd
+      - name: Install site dependencies (mystmd, aggregation script)
+        run: cd docs && pnpm install --frozen-lockfile
       - name: Aggregate reports into one page per project
-        run: python3 docs/aggregate_reports.py
+        run: node docs/aggregate_reports.mjs
       - name: Build the site
-        run: cd docs && myst build --html
+        run: cd docs && pnpm exec myst build --html
         env:
           BASE_URL: /funding-proposals
       - name: Upload artifact
