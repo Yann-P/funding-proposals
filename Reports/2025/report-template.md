@@ -1,3 +1,7 @@
+---
+date: "YYYY-MM"
+---
+
 ## Summary of Work Completed
 
 ## Deliverables/Milestones

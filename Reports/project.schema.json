@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Funded project metadata (project.yml)",
+  "description": "Metadata for one funded project, used by the rendered report site (docs/aggregate_reports.mjs).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "proposal_issue", "status", "funding_round", "reports"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Display title used on the report site."
+    },
+    "proposal_issue": {
+      "type": "string",
+      "format": "uri",
+      "description": "Link to the funding proposal issue."
+    },
+    "status": {
+      "description": "Current status of the funded work.",
+      "enum": ["Accepted", "In Progress", "Done"]
+    },
+    "funding_round": {
+      "type": "string",
+      "description": "Funding round (e.g. \"2025\"); quote it if it looks like a number so it stays a string."
+    },
+    "reports": {
+      "description": "Report files, relative to this folder: a glob, or a list of filenames and/or globs. Each report's date lives in its own frontmatter (date: \"YYYY-MM\" or \"YYYY-MM-DD\").",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      ],
+      "examples": ["*-report.md", ["2026-02-report.md", "2026-04-report.md"]]
+    }
+  }
+}
