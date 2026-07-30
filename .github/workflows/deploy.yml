@@ -1,0 +1,36 @@
+# Build the MyST site and deploy to GitHub Pages
+name: Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    environment: github-pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          cache: true
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26.x
+      - name: Install site dependencies (mystmd, aggregation script)
+        run: pnpm install --frozen-lockfile
+      - name: Build the site (aggregate reports, then MyST)
+        run: pnpm build
+        env:
+          BASE_URL: /funding-proposals
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: './docs/_build/html'
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v5

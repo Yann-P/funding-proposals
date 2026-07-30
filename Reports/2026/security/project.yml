@@ -1,0 +1,6 @@
+# yaml-language-server: $schema=../../project.schema.json
+title: Jupyter Security
+proposal_issue: https://github.com/jupyter-governance/funding-proposals/issues/28
+status: In Progress
+funding_round: "2026"
+reports: "*-report.md"

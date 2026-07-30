@@ -1,0 +1,19 @@
+{
+  "name": "funding-reports-site",
+  "private": true,
+  "packageManager": "pnpm@11.17.0",
+  "type": "module",
+  "description": "Build tooling for the funding reports MyST site",
+  "scripts": {
+    "aggregate": "node scripts/aggregate_reports.mjs",
+    "build": "node scripts/aggregate_reports.mjs && cd docs && myst build --html",
+    "start": "node scripts/aggregate_reports.mjs && cd docs && myst start"
+  },
+  "dependencies": {
+    "myst-parser": "^1.5.0",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "mystmd": "^1.10.1"
+  }
+}
