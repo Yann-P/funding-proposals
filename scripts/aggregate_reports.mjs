@@ -5,7 +5,7 @@
 // Each report carries its own date in its frontmatter (date: "2026-06", or
 // "2026-06-03" when the day matters).
 //
-// Reads ../Reports/<cycle>/<project>/ and writes ./projects/<cycle>/<project>.md.
+// Reads Reports/<cycle>/<project>/ and writes docs/projects/<cycle>/<project>.md.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -13,9 +13,9 @@ import { fileURLToPath } from "node:url";
 import { mystParse } from "myst-parser";
 import { parse as parseYaml } from "yaml";
 
-const DOCS = path.dirname(fileURLToPath(import.meta.url));
-const REPORTS = path.join(DOCS, "..", "Reports");
-const OUT = path.join(DOCS, "projects");
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+const REPORTS = path.join(ROOT, "Reports");
+const OUT = path.join(ROOT, "docs", "projects");
 
 const MONTHS = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"];
@@ -126,6 +126,6 @@ for (const cycle of dirNames(REPORTS)) {
     const page = path.join(OUT, cycle, `${projectName}.md`);
     fs.mkdirSync(path.dirname(page), { recursive: true });
     fs.writeFileSync(page, header + sections.join("\n"));
-    console.log(`wrote ${path.relative(DOCS, page)} (${reports.length} reports)`);
+    console.log(`wrote ${path.relative(ROOT, page)} (${reports.length} reports)`);
   }
 }

@@ -5,9 +5,9 @@
   "type": "module",
   "description": "Build tooling for the funding reports MyST site",
   "scripts": {
-    "aggregate": "node aggregate_reports.mjs",
-    "build": "node aggregate_reports.mjs && myst build --html",
-    "start": "node aggregate_reports.mjs && myst start"
+    "aggregate": "node scripts/aggregate_reports.mjs",
+    "build": "node scripts/aggregate_reports.mjs && cd docs && myst build --html",
+    "start": "node scripts/aggregate_reports.mjs && cd docs && myst start"
   },
   "dependencies": {
     "myst-parser": "^1.5.0",

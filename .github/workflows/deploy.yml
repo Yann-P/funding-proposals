@@ -18,18 +18,14 @@ jobs:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
         with:
-          package_json_file: docs/package.json
           cache: true
-          cache_dependency_path: docs/pnpm-lock.yaml
       - uses: actions/setup-node@v7
         with:
           node-version: 26.x
       - name: Install site dependencies (mystmd, aggregation script)
-        run: cd docs && pnpm install --frozen-lockfile
-      - name: Aggregate reports into one page per project
-        run: node docs/aggregate_reports.mjs
-      - name: Build the site
-        run: cd docs && pnpm exec myst build --html
+        run: pnpm install --frozen-lockfile
+      - name: Build the site (aggregate reports, then MyST)
+        run: pnpm build
         env:
           BASE_URL: /funding-proposals
       - name: Upload artifact
