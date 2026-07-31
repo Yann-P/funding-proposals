@@ -45,4 +45,4 @@ All reporting happens publicly in GitHub to ensure transparency and a consistent
 
 ## Questions or Support
 
-If you need help with the template, reporting cadence, or the GitHub workflow, open an issue or contact the PMO team.
+If you need help with the template, reporting cadence, or the GitHub workflow, open an issue or contact Jupyter Foundations Operations.
